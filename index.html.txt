@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>decorAI DIHEM</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+    * { 
+      box-sizing: border-box; 
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Cairo', sans-serif; 
+      background: linear-gradient(135deg, #f0f4ff 0%, #e6eeff 100%);
+      color: #333;
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      max-width: 800px; 
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .container {
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(74, 144, 226, 0.25);
+      border: 4px solid #4a90e2;
+    }
+    nav {
+      width: 100%; 
+      background: linear-gradient(90deg, #4a90e2 0%, #5a9aed 100%); 
+      display: flex; 
+      align-items: center; 
+      padding: 15px 25px;
+      box-shadow: 0 4px 20px rgba(74, 144, 226, 0.6); 
+      border-bottom: 4px solid #e94e77;
+      user-select: none;
+      position: relative;
+    }
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      color: white; 
+      font-weight: 900;
+      font-size: 1.8rem; 
+      letter-spacing: 1px; 
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .logo svg { 
+      width: 42px; 
+      height: 42px; 
+      fill: #e94e77; 
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); 
+    }
+    .logo span { 
+      color: #ffd166; 
+      margin-left: 4px; 
+    }
+    .ai-badge {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      background: #e94e77;
+      color: white;
+      font-size: 0.9rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+    main { 
+      flex: 1; 
+      width: 100%; 
+      padding: 30px 30px; 
+    }
+    h2 {
+      text-align: center;
+      color: #4a90e2;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 25px;
+    }
+    label { 
+      display: block; 
+      margin-bottom: 12px; 
+      font-weight: 700; 
+      color: #4a90e2; 
+      font-size: 1.15rem; 
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .file-upload {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 120px;
+      border: 3px dashed #c3d0f7;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: #f9faff;
+      margin-bottom: 22px;
+    }
+    .file-upload:hover {
+      border-color: #4a90e2;
+      background: #f0f5ff;
+    }
+    .file-upload i {
+      font-size: 2.5rem;
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+    .file-upload span {
+      color: #4a90e2;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .file-name {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    input[type="text"], 
+    textarea, 
+    select {
+      width: 100%; 
+      padding: 15px 18px; 
+      margin-bottom: 5px; 
+      border-radius: 15px;
+      border: 2px solid #c3d0f7; 
+      font-size: 1rem; 
+      font-family: 'Cairo', sans-serif;
+      transition: all 0.3s;
+      background: #f9faff;
+    }
+    input:focus, 
+    textarea:focus, 
+    select:focus {
+      border-color: #4a90e2; 
+      outline: none; 
+      box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+      background: white;
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    button {
+      width: 100%; 
+      padding: 18px 0; 
+      background: linear-gradient(90deg, #4a90e2 0%, #5a9aed 100%); 
+      color: white; 
+      border: none;
+      font-size: 1.3rem; 
+      font-weight: 800; 
+      border-radius: 15px; 
+      cursor: pointer;
+      transition: all 0.3s; 
+      box-shadow: 0 7px 15px rgba(74, 144, 226, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    button:hover { 
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(74, 144, 226, 0.6);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 30px;
+    }
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4a90e2;
+      border-radius: 50%;
+      animation: spin 1.5s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .results { 
+      margin-top: 40px; 
+      display: none;
+      justify-content: space-between; 
+      gap: 25px; 
+      flex-wrap: wrap; 
+    }
+    .result-image {
+      flex: 1 1 45%; 
+      background: white; 
+      border-radius: 18px; 
+      box-shadow: 0 8px 25px rgba(74, 144, 226, 0.2);
+      padding: 20px; 
+      text-align: center; 
+      font-weight: 800; 
+      color: #4a90e2;
+      font-size: 1.3rem;
+      border: 2px solid #e0eaff;
+      transition: transform 0.3s;
+    }
+    .result-image:hover {
+      transform: translateY(-5px);
+    }
+    .result-image img { 
+      width: 100%; 
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px; 
+      margin-top: 15px; 
+      border: 1px solid #e0eaff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .result-label {
+      display: inline-block;
+      background: #4a90e2;
+      color: white;
+      padding: 8px 25px;
+      border-radius: 30px;
+      margin-bottom: 15px;
+    }
+    .before .result-label {
+      background: #e94e77;
+    }
+    .after .result-label {
+      background: #06d6a0;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #4a90e2;
+      font-weight: 600;
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    @media (max-width: 768px) {
+      .container {
+        max-width: 95%;
+      }
+      .logo {
+        font-size: 1.5rem;
+      }
+      .logo svg {
+        width: 36px;
+        height: 36px;
+      }
+      .results {
+        flex-direction: column;
+      }
+      .result-image {
+        flex: 1 1 100%;
+      }
+    }
+    .upload-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-top: 15px;
+      display: none;
+      border: 2px solid #4a90e2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="28" stroke="#e94e77" stroke-width="4" fill="none" />
+          <path d="M20 40 L32 20 L44 40 Z" fill="#e94e77" />
+          <circle cx="32" cy="28" r="4" fill="#fff" />
+        </svg>
+        decorAI <span>DIHEM</span>
+      </div>
+      <div class="ai-badge">
+        <i class="fas fa-brain"></i> دعم ذكاء اصطناعي مفتوح
+      </div>
+    </nav>
+
+    <main>
+      <h2>تصميم ديكور داخلي باستخدام الذكاء الاصطناعي</h2>
+      
+      <form id="decorForm">
+        <div class="form-group">
+          <label for="imageUpload">
+            <i class="fas fa-cloud-upload-alt"></i> رفع صورة الغرفة
+          </label>
+          <div class="file-upload">
+            <i class="fas fa-image"></i>
+            <span>انقر أو اسحب الصورة هنا</span>
+            <span class="file-name" id="fileName">لم يتم اختيار صورة بعد</span>
+            <input type="file" id="imageUpload" accept="image/*" required />
+          </div>
+          <img id="uploadPreview" class="upload-preview" alt="معاينة الصورة">
+        </div>
+
+        <div class="form-group">
+          <label for="description">
+            <i class="fas fa-edit"></i> وصف الديكور المطلوب
+          </label>
+          <textarea id="description" rows="3" placeholder="مثال: غرفة معيشة حديثة بألوان فاتحة، أريكة رمادية، سجادة بيضاء، نباتات خضراء"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="styleSelect">
+            <i class="fas fa-palette"></i> نمط الديكور
+          </label>
+          <select id="styleSelect" required>
+            <option value="" disabled selected>اختر النمط</option>
+            <option value="مودرن">مودرن</option>
+            <option value="كلاسيكي">كلاسيكي</option>
+            <option value="صناعي">صناعي</option>
+            <option value="مينيماليست">مينيماليست</option>
+            <option value="إسكندنافي">إسكندنافي</option>
+            <option value="عربي تقليدي">عربي تقليدي</option>
+            <option value="فاخر">فاخر</option>
+          </select>
+        </div>
+
+        <button type="submit" id="generateBtn">
+          <i class="fas fa-magic"></i> توليد التصميم بالذكاء الاصطناعي
+        </button>
+      </form>
+
+      <div class="loading" id="loading">
+        <div class="loader"></div>
+        <h3>جاري معالجة طلبك بواسطة الذكاء الاصطناعي</h3>
+        <p>قد تستغرق العملية من 20 إلى 60 ثانية</p>
+      </div>
+
+      <section class="results" id="results">
+        <div class="result-image before">
+          <div class="result-label">قبل التصميم</div>
+          <img id="beforeImg" alt="صورة قبل التعديل" />
+        </div>
+        <div class="result-image after">
+          <div class="result-label">بعد التصميم</div>
+          <img id="afterImg" alt="صورة بعد التعديل" />
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="footer">
+    decorAI DIHEM - نظام تصميم داخلي بالذكاء الاصطناعي &copy; 2024
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('decorForm');
+  const fileInput = document.getElementById('imageUpload');
+  const fileName = document.getElementById('fileName');
+  const uploadPreview = document.getElementById('uploadPreview');
+  const loading = document.getElementById('loading');
+  const results = document.getElementById('results');
+  const beforeImg = document.getElementById('beforeImg');
+  const afterImg = document.getElementById('afterImg');
+  
+  // معاينة الصورة
+  fileInput.addEventListener('change', function(e) {
+    if (e.target.files.length > 0) {
+      const file = e.target.files[0];
+      fileName.textContent = file.name;
+      
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadPreview.src = event.target.result;
+        uploadPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  
+  // إرسال النموذج
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const file = fileInput.files[0];
+    const description = document.getElementById('description').value;
+    const style = document.getElementById('styleSelect').value;
+    
+    if (!file) {
+      alert('يرجى اختيار صورة');
+      return;
+    }
+
+    form.style.display = 'none';
+    loading.style.display = 'block';
+    results.style.display = 'none';
+
+    const reader = new FileReader();
+    reader.onload = async function(event) {
+      const base64Image = event.target.result;
+      beforeImg.src = base64Image;
+
+      const prompt = `تحديث ديكور داخلي بنمط ${style} مع: ${description || 'تحديث عصري وأنيق'}. جدد الأثاث، وحسن الإضاءة، وأضف لمسات جمالية.`;
+
+      try {
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imageBase64: base64Image, prompt })
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'فشل في الاتصال بالذكاء الاصطناعي');
+
+        const pollStatus = async (getUrl) => {
+          const res = await fetch(getUrl);
+          const result = await res.json();
+
+          if (result.status === 'succeeded') {
+            afterImg.src = result.output;
+            loading.style.display = 'none';
+            results.style.display = 'flex';
+            form.style.display = 'block';
+          } else if (result.status === 'failed') {
+            alert('فشل التوليد: ' + (result.error || 'خطأ غير معروف'));
+            loading.style.display = 'none';
+            form.style.display = 'block';
+          } else {
+            setTimeout(() => pollStatus(getUrl), 3000);
+          }
+        };
+
+        pollStatus(data.prediction.urls.get);
+
+      } catch (err) {
+        alert('خطأ: ' + err.message);
+        loading.style.display = 'none';
+        form.style.display = 'block';
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+});
+</script>
+</body>
+</html>
