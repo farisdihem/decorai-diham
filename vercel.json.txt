@@ -1,3 +1,7 @@
-{
-  "version": 2
+version: "ostris/flux-dev",
+input: {
+  prompt: prompt,
+  aspect_ratio: "1:1",
+  output_format: "jpeg",
+  output_quality: 85
 }
